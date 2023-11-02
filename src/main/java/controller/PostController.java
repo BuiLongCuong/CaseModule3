@@ -27,6 +27,7 @@ public class PostController extends HttpServlet {
                     case "home":
                         showHome(request, response);
                         break;
+
                 }
             }
         }
