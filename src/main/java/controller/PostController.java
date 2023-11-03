@@ -9,46 +9,45 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "PostController", value = "/PostController")
+@WebServlet(name = "PostController", value = "/posts")
 public class PostController extends HttpServlet {
-    PostService postManager = new PostService();
+    private PostService postService = new PostService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
-            case "showAll":
-                showAll(request, response);
+            case "home":
+                home(request, response);
                 break;
             case "create":
-                showForm(request, response);
+                showFormCreate(request, response);
                 break;
             case "update":
                 showFormUpdate(request, response);
                 break;
-
         }
     }
 
-    public void showAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Post> list = postManager.findAll();
-        request.setAttribute("Post", list);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/Post/post.jsp");
+    public void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Post> postList = postService.findAll();
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/posts/home.jsp");
+        request.setAttribute("postList", postList);
         requestDispatcher.forward(request, response);
     }
 
-    public void showForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/Post/create.jsp");
+    public void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/posts/create.jsp");
         requestDispatcher.forward(request, response);
     }
 
     public void showFormUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("id", id);
-        Post post = postManager.PostFindById(id);
-        request.setAttribute("post", post);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/Post/update.jsp");
-        requestDispatcher.forward(request, response);
+        Post postEdit = postService.findPostById(id);
+        request.setAttribute("postEdit", postEdit);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/posts/update.jsp");
+        dispatcher.forward(request, response);
     }
 
 
@@ -67,20 +66,21 @@ public class PostController extends HttpServlet {
     }
 
     public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String iamge = request.getParameter("image");
-        String status = request.getParameter("status");
+        String image = request.getParameter("img");
+        String content = request.getParameter("content");
         int idCategory = Integer.parseInt(request.getParameter("idCategory"));
-        postManager.add(new Post(iamge, status, idCategory));
-        response.sendRedirect("/PostController?action=showAll");
+        Post newPost = new Post(image, content, idCategory);
+        postService.add(newPost);
+        response.sendRedirect("/posts?action=home");
     }
 
     public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        String img = request.getParameter("img");
-        String status = request.getParameter("status");
-        int idCategory = Integer.parseInt(request.getParameter("idCategory"));
-        Post post = new Post(img, status, idCategory);
-        postManager.update(id, post);
-        response.sendRedirect("http://localhost:8080/PostController?action=showAll");
+        String imgEdit = request.getParameter("img");
+        String contentEdit = request.getParameter("content");
+        int idCategoryEdit = Integer.parseInt(request.getParameter("idCategory"));
+        Post postEdit = new Post(imgEdit, contentEdit, idCategoryEdit);
+        postService.update(id, postEdit);
+        response.sendRedirect("/posts?action=home");
     }
 }

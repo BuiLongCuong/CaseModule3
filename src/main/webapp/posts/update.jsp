@@ -11,11 +11,12 @@
     <title>Title</title>
 </head>
 <body>
-<form action="http://localhost:8080/PostController?action=update&id=${id}" method="post">
-    <input type="text"name="img"placeholder="image"value="${post.image}">
-    <input type="text" name="status"placeholder="Status"value="${post.status}">
-    <input type="text"name="idCategory"placeholder="Nhập ID vào đây th chó"value="${post.idCategory}">
-    <button>SubMid</button>
+<form action="http://localhost:8080/posts?action=update&id=${id}" method="post">
+    <input type="text" name="img" placeholder="Image" value="${postEdit.img}">
+    <img src="${postEdit.img}" alt="">
+    <input type="text" name="content" placeholder="Content" value="${postEdit.content}">
+    <input type="text" name="idCategory" placeholder="Nhập ID vào đây th chó" value="${postEdit.idCategory}">
+    <button type="submit">Submit</button>
 </form>
 </body>
 </html>
