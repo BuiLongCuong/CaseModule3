@@ -78,10 +78,10 @@ public class PostController extends HttpServlet {
     }
 
     public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String iamge = request.getParameter("image");
+        String image = request.getParameter("image");
         String status = request.getParameter("status");
         int idCategory = Integer.parseInt(request.getParameter("idCategory"));
-        postManager.add(new Post(iamge, status, idCategory));
+        postManager.add(new Post(image, status, idCategory));
         response.sendRedirect("/PostController?action=showAll");
     }
 
