@@ -26,6 +26,10 @@ public class PostController extends HttpServlet {
             case "update":
                 showFormUpdate(request, response);
                 break;
+            case "delete":
+                delete(request, response);
+                break;
+
         }
     }
 
@@ -33,6 +37,18 @@ public class PostController extends HttpServlet {
         List<Post> postList = postService.findAll();
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/posts/home.jsp");
         request.setAttribute("postList", postList);
+        requestDispatcher.forward(request, response);
+    }
+
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        postService.delete(id);
+        response.sendRedirect("/products?action=home");
+    }
+    public void showAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Post> list = postService.findAll();
+        request.setAttribute("Post", list);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/Post/post.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -61,6 +77,9 @@ public class PostController extends HttpServlet {
             case "update":
                 update(request, response);
                 break;
+            case "delete" :
+                deleteProduct(request, response);
+                break;
 
         }
     }
@@ -82,5 +101,10 @@ public class PostController extends HttpServlet {
         Post postEdit = new Post(imgEdit, contentEdit, idCategoryEdit);
         postService.update(id, postEdit);
         response.sendRedirect("/posts?action=home");
+    }
+    public void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        postService.delete(id);
+        response.sendRedirect("products?action=home");
     }
 }
