@@ -16,11 +16,11 @@
     <title>Document</title>
 </head>
 <body>
-<form action="http://localhost:8080/PostController?action=create"method="post">
-    <input type="text"name="img"placeholder="image">
-    <input type="text" name="status"placeholder="Status">
-    <input type="text"name="idCategory"placeholder="Nhập ID vào đây th chó">
-    <button>SubMid</button>
+<form action="http://localhost:8080/posts?action=create"method="post">
+    <input type="text" name="img"placeholder="Image">
+    <input type="text" name="content" placeholder="Content">
+    <input type="text" name="idCategory" placeholder="Nhập ID vào đây th chó">
+    <button>Submit</button>
 </form>
 </body>
 </html>

@@ -12,12 +12,11 @@ public class Post {
         this.img = img;
         this.idCategory = idCategory;
     }
-    public Post(  String img,String content, int idCategory) {
+    public Post(String img, String content, int idCategory) {
         this.content = content;
         this.img = img;
         this.idCategory = idCategory;
     }
-
 
     public int getId() {
         return id;
