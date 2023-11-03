@@ -6,12 +6,18 @@ public class Post {
     private String img;
     private int idCategory;
 
-    public Post(int id, String content, String img, int idCategory) {
+    public Post(int id, String img, String content, int idCategory) {
         this.id = id;
         this.content = content;
         this.img = img;
         this.idCategory = idCategory;
     }
+    public Post(  String img,String content, int idCategory) {
+        this.content = content;
+        this.img = img;
+        this.idCategory = idCategory;
+    }
+
 
     public int getId() {
         return id;
