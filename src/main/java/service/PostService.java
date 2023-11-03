@@ -35,7 +35,14 @@ public class PostService implements iService<Post> {
 
     @Override
     public void delete(int id) {
-
+        String sql = "delete from product where id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

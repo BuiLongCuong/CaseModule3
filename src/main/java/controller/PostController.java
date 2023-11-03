@@ -26,10 +26,18 @@ public class PostController extends HttpServlet {
             case "update":
                 showFormUpdate(request, response);
                 break;
+            case "delete":
+                delete(request, response);
+                break;
 
         }
     }
 
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        postManager.delete(id);
+        response.sendRedirect("/products?action=home");
+    }
     public void showAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Post> list = postManager.findAll();
         request.setAttribute("Post", list);
@@ -62,6 +70,9 @@ public class PostController extends HttpServlet {
             case "update":
                 update(request, response);
                 break;
+            case "delete" :
+                deleteProduct(request, response);
+                break;
 
         }
     }
@@ -82,5 +93,10 @@ public class PostController extends HttpServlet {
         Post post = new Post(img, status, idCategory);
         postManager.update(id, post);
         response.sendRedirect("http://localhost:8080/PostController?action=showAll");
+    }
+    public void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        postManager.delete(id);
+        response.sendRedirect("products?action=home");
     }
 }
