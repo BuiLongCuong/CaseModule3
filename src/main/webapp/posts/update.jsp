@@ -18,5 +18,7 @@
     <input type="text" name="idCategory" placeholder="Nhập ID vào đây th chó" value="${postEdit.idCategory}">
     <button type="submit">Submit</button>
 </form>
+<p>Nhập ID=1: bài viết ẩm thực.</p>
+<p>Nhập ID=2: bài viết thể thao.</p>
 </body>
 </html>

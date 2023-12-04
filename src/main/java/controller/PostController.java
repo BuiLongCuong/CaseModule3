@@ -15,22 +15,38 @@ public class PostController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        switch (action) {
-            case "home":
-                home(request, response);
-                break;
-            case "create":
-                showFormCreate(request, response);
-                break;
-            case "update":
-                showFormUpdate(request, response);
-                break;
-            case "delete":
-                delete(request, response);
-                break;
-
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            if (session.getAttribute("idUser") != null) {
+                int idUser = (int) session.getAttribute("idUser");
+                String action = request.getParameter("action");
+                switch (action) {
+                    case "home":
+                        home(request, response);
+                        break;
+                    case "create":
+                        showFormCreate(request, response);
+                        break;
+                    case "delete":
+                        delete(request, response);
+                        break;
+                    case "update":
+                        showFormUpdate(request, response);
+                        break;
+                    default:
+                        notFound(request, response);
+                }
+            } else {
+                session.invalidate();
+                response.sendRedirect("/user?action=login");
+            }
+        } else {
+            response.sendRedirect("/user?action=login");
         }
+    }
+    private void notFound(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/error/notFound.jsp");
+        dispatcher.forward(request, response);
     }
 
     public void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,13 +59,7 @@ public class PostController extends HttpServlet {
     public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         postService.delete(id);
-        response.sendRedirect("/products?action=home");
-    }
-    public void showAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Post> list = postService.findAll();
-        request.setAttribute("Post", list);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/Post/post.jsp");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect("/posts?action=home");
     }
 
     public void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,10 +87,6 @@ public class PostController extends HttpServlet {
             case "update":
                 update(request, response);
                 break;
-            case "delete" :
-                deleteProduct(request, response);
-                break;
-
         }
     }
 
@@ -101,10 +107,5 @@ public class PostController extends HttpServlet {
         Post postEdit = new Post(imgEdit, contentEdit, idCategoryEdit);
         postService.update(id, postEdit);
         response.sendRedirect("/posts?action=home");
-    }
-    public void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        postService.delete(id);
-        response.sendRedirect("products?action=home");
     }
 }

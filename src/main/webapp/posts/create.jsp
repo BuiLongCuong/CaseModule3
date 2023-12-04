@@ -17,10 +17,12 @@
 </head>
 <body>
 <form action="http://localhost:8080/posts?action=create"method="post">
-    <input type="text" name="img"placeholder="Image">
-    <input type="text" name="content" placeholder="Content">
-    <input type="text" name="idCategory" placeholder="Nhập ID vào đây th chó">
+    <input type="text" name="img"placeholder="Địa chỉ hình ảnh">
+    <input type="text" name="content" placeholder="Nội dung bài viết">
+    <input type="text" name="idCategory" placeholder="Nhập ID vào đây">
     <button>Submit</button>
 </form>
+<p>Nhập ID=1: bài viết ẩm thực.</p>
+<p>Nhập ID=2: bài viết thể thao.</p>
 </body>
 </html>

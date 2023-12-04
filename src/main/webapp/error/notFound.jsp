@@ -13,6 +13,6 @@
 <body>
 
 <center><h1>404 Not Found</h1></center>
-<a href="http://localhost:8080/products?action=home">BACK HOME</a>
+<center><a href="http://localhost:8080/posts?action=home">BACK HOME</a></center>
 </body>
 </html>
